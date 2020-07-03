@@ -15,8 +15,8 @@ import TestComponent from './TestComponent';
 // }
 
 const App = () => (
-  <div styleName="a">
-    kek <TestComponent />
+  <div>
+    <TestComponent />
   </div>
 );
 
