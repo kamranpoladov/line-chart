@@ -9,19 +9,19 @@ const data: PlotProps = {
         },
         {
             date: new Date(2020, 5, 29),
-            value: 12
+            value: 20
         },
         {
             date: new Date(2020, 5, 30),
-            value: 49
+            value: 27
         },
         {
             date: new Date(2020, 6, 1),
-            value: 32
+            value: 13
         },        
         {
             date: new Date(2020, 6, 2),
-            value: 52
+            value: 27
         },        
         {
             date: new Date(2020, 6, 3),
@@ -30,6 +30,10 @@ const data: PlotProps = {
         {
             date: new Date(2020, 6, 4),
             value: 17
+        },  
+        {
+            date: new Date(2020, 6, 5),
+            value: 29
         }
     ]
 }
