@@ -4,5 +4,10 @@ export interface Range {
 };
 
 export interface PlotProps {
-    data: Array<{date: Date, value: number}>;
+    data: Array<DataPoint>;
+};
+
+export interface DataPoint {
+	date: Date,
+	value: number
 };
