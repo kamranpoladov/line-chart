@@ -34,8 +34,12 @@ const data: PlotProps = {
         {
             date: new Date(2020, 6, 5),
             value: 29
+        },
+        {
+            date: new Date(2020, 6, 6),
+            value: 29
         }
     ]
-}
+};
 
 export default data;

@@ -3,6 +3,7 @@ import './TestComponent.scss';
 import React, { useState } from 'react';
 import { Range } from '../Interfaces';
 import ChartComponent from '../ChartComponent';
+import data from '../Data';
 
 const TestComponent: React.FunctionComponent = () => {
 	// Set up default range: 1 week
@@ -33,7 +34,7 @@ const TestComponent: React.FunctionComponent = () => {
 
 	return (
 		<div>
-			<ChartComponent range={range} dateFormat={dateFormat} />
+			<ChartComponent range={range} dateFormat={dateFormat} data={data} />
 		</div>
 	);
 };
