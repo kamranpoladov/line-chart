@@ -25,7 +25,7 @@ const data: PlotProps = {
         },        
         {
             date: new Date(2020, 6, 3),
-            value: 49
+            value: 51
         },        
         {
             date: new Date(2020, 6, 4),

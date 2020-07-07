@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Range } from '../Interfaces';
 import ChartComponent from '../ChartComponent';
 import data from '../Data';
+import { rangeToFormat } from '../Utilities/RangeToFormat/index';
 
 const TestComponent: React.FunctionComponent = () => {
 	// Set up default range: 1 week
@@ -23,17 +24,20 @@ const TestComponent: React.FunctionComponent = () => {
 		rangeLeft: leftRangeInit,
 		rangeRight: rightRangeInit
 	});
-	const [dateFormat, setDateFormat] = useState<string>('%m.%d');
+	const [dateFormat, setDateFormat] = useState<string>('%d.%m');
 
 	const handleRange = (
 		leftRangeDate: Date = range.rangeLeft, 
       	rightRangeDate: Date = range.rangeRight
     ) => {
 		setRange({...range, rangeLeft: leftRangeDate, rangeRight: rightRangeDate});
+		setDateFormat(rangeToFormat({rangeLeft: leftRangeDate, rangeRight: rightRangeInit}));
 	};
 
 	return (
 		<div>
+			<button onClick={() => handleRange(new Date(2020, 6, 4), rightRangeInit)}>Change range 1</button>
+			<button onClick={() => handleRange(new Date(2019, 5, 28), new Date(2020, 6, 5))}>Change range 2</button>
 			<ChartComponent range={range} dateFormat={dateFormat} data={data} />
 		</div>
 	);
