@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "parcel build src/index.html --no-source-maps",
-    "start": "parcel src/index.html",
+    "start": "./node_modules/parcel-bundler/bin/cli.js src/index.html",
     "start_log": "parcel src/index.html --log-level 4",
     "test": "jest --verbose",
     "test:watch": "jest --watch --verbose"
