@@ -38,6 +38,7 @@ const TestComponent: React.FunctionComponent = () => {
 		<div>
 			<button onClick={() => handleRange(new Date(2020, 6, 4), rightRangeInit)}>Change range 1</button>
 			<button onClick={() => handleRange(new Date(2019, 5, 28), new Date(2020, 6, 5))}>Change range 2</button>
+			<button onClick={() => handleRange(leftRangeInit, rightRangeInit)}>Default</button>
 			<ChartComponent range={range} dateFormat={dateFormat} data={data} />
 		</div>
 	);
