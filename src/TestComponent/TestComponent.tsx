@@ -1,10 +1,11 @@
 import './TestComponent.scss';
 
 import React, { useState } from 'react';
-import { Range } from '../Interfaces';
+import { Range, Step } from '../Interfaces';
 import ChartComponent from '../ChartComponent';
 import data from '../Data';
-import { rangeToFormat } from '../Utilities/RangeToFormat/index';
+import { rangeToFormat, rangeToStep } from '../Utilities/FormatDate/index';
+import * as d3 from 'd3';
 
 const TestComponent: React.FunctionComponent = () => {
 	// Set up default range: 1 week
@@ -18,13 +19,14 @@ const TestComponent: React.FunctionComponent = () => {
 			new Date().getFullYear(), 
 			new Date().getMonth(), 
 			new Date().getDate());
-	leftRangeInit.setFullYear(leftRangeInit.getFullYear() - 2);
+	leftRangeInit.setDate(leftRangeInit.getDate() - 6);
 
 	const [range, setRange] = useState<Range>({ 
 		rangeLeft: leftRangeInit,
 		rangeRight: rightRangeInit
 	});
-	const [dateFormat, setDateFormat] = useState<string>('%d %b');
+	const [dateFormat, setDateFormat] = useState<string>(rangeToFormat(range));
+	const [step, setStep] = useState<Step>(rangeToStep(range));
 
 	const handleRange = (
 		leftRangeDate: Date = range.rangeLeft, 
@@ -32,6 +34,7 @@ const TestComponent: React.FunctionComponent = () => {
     ) => {
 		setRange({ ...range, rangeLeft: leftRangeDate, rangeRight: rightRangeDate });
 		setDateFormat(rangeToFormat({ rangeLeft: leftRangeDate, rangeRight: rightRangeDate }));
+		setStep(rangeToStep({ rangeLeft: leftRangeDate, rangeRight: rightRangeDate }));
 	};
 
 	return (
@@ -75,14 +78,49 @@ const TestComponent: React.FunctionComponent = () => {
 			<button onClick={
 				() => handleRange(
 					new Date(
+						range.rangeRight.getFullYear(),
+						range.rangeRight.getMonth() - 3, 
+						range.rangeRight.getDate()
+					), 
+					range.rangeRight
+					)}>3 months</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear(),
+						range.rangeRight.getMonth() - 6, 
+						range.rangeRight.getDate()
+					), 
+					range.rangeRight
+					)}>6 months</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
 						range.rangeRight.getFullYear() - 1,
 						range.rangeRight.getMonth(), 
 						range.rangeRight.getDate()
 					), 
 					range.rangeRight
 					)}>1 year</button>
-			<button onClick={() => handleRange(leftRangeInit, rightRangeInit)}>Default</button>
-			<ChartComponent range={range} dateFormat={dateFormat} data={data} />
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear() - 2,
+						range.rangeRight.getMonth(), 
+						range.rangeRight.getDate()
+					), 
+					range.rangeRight
+					)}>2 years</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear() - 5,
+						range.rangeRight.getMonth(), 
+						range.rangeRight.getDate()
+					), 
+					range.rangeRight
+					)}>5 years</button>
+			<ChartComponent range={range} dateFormat={dateFormat} data={data} step={step} />
 		</div>
 	);
 };

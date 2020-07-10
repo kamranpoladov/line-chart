@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { Range, DataPoint, PlotProps } from '../Interfaces';
+import { Range, DataPoint, PlotProps, Step } from '../Interfaces';
 import { mousemove, mouseover, mouseout } from '../Utilities/Cursor';
 import { body, cursor } from '../Utilities/Styles';
 import { maxForRange, minForRange } from '../Utilities/MaxMin';
 import { filterData } from '../Utilities/Services';
 
 const ChartComponent: React.FunctionComponent<
-    { range: Range, dateFormat: string, data: PlotProps }
-    > = ({ range, dateFormat, data }) => {
+    { range: Range, dateFormat: string, data: PlotProps, step: Step }
+    > = ({ range, dateFormat, data, step }) => {
 
     const _data = filterData(range, data);
     
@@ -32,21 +32,12 @@ const ChartComponent: React.FunctionComponent<
         d3.select(chartBodyRef.current)
             .attr('transform', `translate(${body.margin.left}, ${body.margin.top})`);
 
-        d3.select(clipPathRef.current)
-            .attr('id', 'clip')   
-        d3.select(clipPathRectRef.current)
-            .attr('width', body.width + body.margin.right + body.margin.left)
-            .attr('height', body.height + body.margin.top + body.margin.bottom);
-
         const xAxisGenerator: d3.ScaleTime<number, number> = d3.scaleTime()
             .domain([range.rangeLeft, range.rangeRight])
             .range([0, body.width]);
         d3.select(xAxisRef.current)
             .style('font', '13px sans-serif')
             .attr('transform', `translate(0, ${body.height})`)
-            .transition()
-            .duration(1000)
-            .style('opacity', 1)
             .call(d3.axisBottom(xAxisGenerator)
                 .tickSize(0)
                 .tickFormat(d3.timeFormat(dateFormat) as () => string)
@@ -54,7 +45,7 @@ const ChartComponent: React.FunctionComponent<
                     //     data.data
                     //         .map((d) => d.date)
                     //         .filter((date) => date >= range.rangeLeft && date <= range.rangeRight))
-                .ticks(d3.timeMonth, 1)
+                .ticks(step.interval, step.every)
                 .tickPadding(20))
             .select('.domain')
                 .attr('opacity', '0');
@@ -64,8 +55,6 @@ const ChartComponent: React.FunctionComponent<
             .range([body.height, 0]);
         d3.select(yAxisRef.current)
             .style('font', '13px sans-serif')
-            .transition()
-            .duration(1000)
             .call(d3.axisLeft(yAxisGenerator)
                 .tickSize(0)
                 .tickPadding(30))
@@ -74,11 +63,11 @@ const ChartComponent: React.FunctionComponent<
         
         d3.select(areaPathRef.current)
             .datum(_data)
-            .attr('clip-path', 'url(#clip)')
+            // .attr('clip-path', 'url(#clip)')
             .attr('fill', '#edfaea')
-            .transition()
-            .duration(1000)
             .attr('d', d3.area<DataPoint>()
+                // .curve(d3.curveCardinal.tension(0.5))
+                .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
                 .x((d) => xAxisGenerator(d.date))
                 .y0(yAxisGenerator(minForRange(_data, range)))
                 .y1((d) => yAxisGenerator(d.value))
@@ -87,13 +76,13 @@ const ChartComponent: React.FunctionComponent<
         
         d3.select(linePathRef.current)
             .datum(_data)
-            .attr('clip-path', 'url(#clip)')
+            // .attr('clip-path', 'url(#clip)')
             .attr('stroke', '#6ad370')
             .attr('stroke-width', 1.5)
             .attr('fill', 'none')
-            .transition()
-            .duration(1000)
             .attr('d', d3.line<DataPoint>()
+                // .curve(d3.curveCardinal.tension(0.5))
+                .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
                 .x(d => xAxisGenerator(d.date))
                 .y(d => yAxisGenerator(d.value))
             );
@@ -126,7 +115,7 @@ const ChartComponent: React.FunctionComponent<
                 mouseover(focusCircle, focusText, focusLine);
             })
             .on('mousemove', () => {
-                mousemove(xAxisGenerator, yAxisGenerator, _data, focusCircle, focusText, focusLine);
+                mousemove(xAxisGenerator, yAxisGenerator, _data, focusCircle, focusText, focusLine, range);
             })
             .on('mouseout', () => {
                 mouseout(focusCircle, focusText, focusLine);
@@ -137,11 +126,6 @@ const ChartComponent: React.FunctionComponent<
     return (
         <div>
             <svg ref={mainSvgRef}>
-                <defs>
-                    <clipPath ref={clipPathRef}>
-                        <rect ref={clipPathRectRef}></rect>
-                    </clipPath>
-                </defs>
                 <g ref={chartBodyRef}>
                     <g ref={xAxisRef} />
                     <g ref={yAxisRef} />
