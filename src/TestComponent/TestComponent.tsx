@@ -18,26 +18,69 @@ const TestComponent: React.FunctionComponent = () => {
 			new Date().getFullYear(), 
 			new Date().getMonth(), 
 			new Date().getDate());
-	leftRangeInit.setDate(leftRangeInit.getDate() - 6);
+	leftRangeInit.setFullYear(leftRangeInit.getFullYear() - 2);
 
 	const [range, setRange] = useState<Range>({ 
 		rangeLeft: leftRangeInit,
 		rangeRight: rightRangeInit
 	});
-	const [dateFormat, setDateFormat] = useState<string>('%d.%m');
+	const [dateFormat, setDateFormat] = useState<string>('%d %b');
 
 	const handleRange = (
 		leftRangeDate: Date = range.rangeLeft, 
       	rightRangeDate: Date = range.rangeRight
     ) => {
-		setRange({...range, rangeLeft: leftRangeDate, rangeRight: rightRangeDate});
-		setDateFormat(rangeToFormat({rangeLeft: leftRangeDate, rangeRight: rightRangeInit}));
+		setRange({ ...range, rangeLeft: leftRangeDate, rangeRight: rightRangeDate });
+		setDateFormat(rangeToFormat({ rangeLeft: leftRangeDate, rangeRight: rightRangeDate }));
 	};
 
 	return (
 		<div>
-			<button onClick={() => handleRange(new Date(2020, 6, 4), rightRangeInit)}>Change range 1</button>
-			<button onClick={() => handleRange(new Date(2019, 5, 28), new Date(2020, 6, 5))}>Change range 2</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear(),
+						range.rangeRight.getMonth(), 
+						range.rangeRight.getDate() - 6
+					), 
+					range.rangeRight
+					)}>1 week</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear(),
+						range.rangeRight.getMonth(), 
+						range.rangeRight.getDate() - 13
+					), 
+					range.rangeRight
+					)}>2 weeks</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear(),
+						range.rangeRight.getMonth(), 
+						range.rangeRight.getDate() - 27
+					), 
+					range.rangeRight
+					)}>4 weeks</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear(),
+						range.rangeRight.getMonth() - 2, 
+						range.rangeRight.getDate()
+					), 
+					range.rangeRight
+					)}>2 months</button>
+			<button onClick={
+				() => handleRange(
+					new Date(
+						range.rangeRight.getFullYear() - 1,
+						range.rangeRight.getMonth(), 
+						range.rangeRight.getDate()
+					), 
+					range.rangeRight
+					)}>1 year</button>
 			<button onClick={() => handleRange(leftRangeInit, rightRangeInit)}>Default</button>
 			<ChartComponent range={range} dateFormat={dateFormat} data={data} />
 		</div>

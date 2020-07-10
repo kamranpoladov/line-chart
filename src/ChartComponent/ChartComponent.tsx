@@ -4,11 +4,14 @@ import { Range, DataPoint, PlotProps } from '../Interfaces';
 import { mousemove, mouseover, mouseout } from '../Utilities/Cursor';
 import { body, cursor } from '../Utilities/Styles';
 import { maxForRange, minForRange } from '../Utilities/MaxMin';
+import { filterData } from '../Utilities/Services';
 
 const ChartComponent: React.FunctionComponent<
     { range: Range, dateFormat: string, data: PlotProps }
     > = ({ range, dateFormat, data }) => {
 
+    const _data = filterData(range, data);
+    
     const mainSvgRef = useRef((null as unknown) as SVGSVGElement);
     const clipPathRef = useRef((null as unknown) as SVGClipPathElement);
     const clipPathRectRef = useRef((null as unknown) as SVGRectElement);
@@ -25,7 +28,7 @@ const ChartComponent: React.FunctionComponent<
     useEffect(() => {
         d3.select(mainSvgRef.current)
             .attr('width', body.width + body.margin.right + body.margin.left)
-            .attr('height', body.height + body.margin.top + body.margin.bottom);
+            .attr('height', body.height + body.margin.top + body.margin.bottom)
         d3.select(chartBodyRef.current)
             .attr('transform', `translate(${body.margin.left}, ${body.margin.top})`);
 
@@ -43,17 +46,21 @@ const ChartComponent: React.FunctionComponent<
             .attr('transform', `translate(0, ${body.height})`)
             .transition()
             .duration(1000)
+            .style('opacity', 1)
             .call(d3.axisBottom(xAxisGenerator)
                 .tickSize(0)
-                .tickFormat(
-                    d3.timeFormat(dateFormat) as () => string)
-                    .tickValues(data.data.map((d) => d.date))
+                .tickFormat(d3.timeFormat(dateFormat) as () => string)
+                    // .tickValues(
+                    //     data.data
+                    //         .map((d) => d.date)
+                    //         .filter((date) => date >= range.rangeLeft && date <= range.rangeRight))
+                .ticks(d3.timeMonth, 1)
                 .tickPadding(20))
             .select('.domain')
                 .attr('opacity', '0');
         
         const yAxisGenerator: d3.ScaleLinear<number, number> = d3.scaleLinear()
-            .domain([minForRange(data, range), maxForRange(data, range) + 5])
+            .domain([minForRange(_data, range), maxForRange(_data, range) + 10])
             .range([body.height, 0]);
         d3.select(yAxisRef.current)
             .style('font', '13px sans-serif')
@@ -66,22 +73,23 @@ const ChartComponent: React.FunctionComponent<
                 .attr('opacity', '0');
         
         d3.select(areaPathRef.current)
-            .datum(data.data)
-            .attr('clip-path', 'url(#clip')
+            .datum(_data)
+            .attr('clip-path', 'url(#clip)')
             .attr('fill', '#edfaea')
-            .transition('width')
+            .transition()
             .duration(1000)
             .attr('d', d3.area<DataPoint>()
                 .x((d) => xAxisGenerator(d.date))
-                .y0(yAxisGenerator(minForRange(data, range)))
+                .y0(yAxisGenerator(minForRange(_data, range)))
                 .y1((d) => yAxisGenerator(d.value))
             );
         
+        
         d3.select(linePathRef.current)
-            .datum(data.data)
-            .attr('clip-path', 'url(#clip')
+            .datum(_data)
+            .attr('clip-path', 'url(#clip)')
             .attr('stroke', '#6ad370')
-            .attr('stroke-width', 4)
+            .attr('stroke-width', 1.5)
             .attr('fill', 'none')
             .transition()
             .duration(1000)
@@ -115,10 +123,10 @@ const ChartComponent: React.FunctionComponent<
             .attr('x', -body.margin.right)
             .attr('y', -body.margin.top)
             .on('mouseover', () => {
-                mouseover(focusCircle, focusText, focusLine)
+                mouseover(focusCircle, focusText, focusLine);
             })
             .on('mousemove', () => {
-                mousemove(xAxisGenerator, yAxisGenerator, data, focusCircle, focusText, focusLine);
+                mousemove(xAxisGenerator, yAxisGenerator, _data, focusCircle, focusText, focusLine);
             })
             .on('mouseout', () => {
                 mouseout(focusCircle, focusText, focusLine);

@@ -17,14 +17,14 @@ export const mouseover = (
 export const mousemove = (
         xAxisGenerator: d3.ScaleTime<number, number>,
         yAxisGenerator: d3.ScaleLinear<number, number>,
-        data: PlotProps,
+        data: DataPoint[],
         focusCircle: d3.Selection<SVGCircleElement, unknown, null, any>,
         focusText: d3.Selection<SVGTextElement, unknown, null, any>,
         focusLine: d3.Selection<SVGLineElement, unknown, null, any>
 ) => {
     const x0 = xAxisGenerator.invert(d3.mouse(d3.event.currentTarget)[0]);
-    const i = bisect(data.data, x0, 1);
-    const selectedData = data.data[i];
+    const i = bisect(data, x0, 1);
+    const selectedData = data[i];
     focusCircle
         .attr('cx', xAxisGenerator(selectedData.date))
         .attr('cy', yAxisGenerator(selectedData.value));
