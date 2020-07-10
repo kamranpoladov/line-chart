@@ -5,11 +5,8 @@ import { Range, Step } from '../Interfaces';
 import ChartComponent from '../ChartComponent';
 import data from '../Data';
 import { rangeToFormat, rangeToStep } from '../Utilities/FormatDate/index';
-import * as d3 from 'd3';
 
 const TestComponent: React.FunctionComponent = () => {
-	// Set up default range: 1 week
-	// Use only year, month and day, remove any timestamps
 	const
 		rightRangeInit = new Date(
 			new Date().getFullYear(), 
@@ -38,7 +35,7 @@ const TestComponent: React.FunctionComponent = () => {
 	};
 
 	return (
-		<div>
+		<div styleName='wrapper'>
 			<button onClick={
 				() => handleRange(
 					new Date(

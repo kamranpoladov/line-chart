@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import { DataPoint, PlotProps, Range } from '../../Interfaces';
 import { body } from '../Styles';
+import { ContentRect } from 'resize-observer/lib/ContentRect';
 
 const bisect = d3.bisector<DataPoint, Date>((d) => d.date).right;
 
@@ -21,7 +22,8 @@ export const mousemove = (
         focusCircle: d3.Selection<SVGCircleElement, unknown, null, any>,
         focusText: d3.Selection<SVGTextElement, unknown, null, any>,
         focusLine: d3.Selection<SVGLineElement, unknown, null, any>,
-        range: Range
+        range: Range,
+        dimensions: ContentRect
 ) => {
     const x0 = xAxisGenerator.invert(d3.mouse(d3.event.currentTarget)[0]);
     const i = bisect(data, x0, 1);
@@ -38,7 +40,7 @@ export const mousemove = (
             .attr('x1', xAxisGenerator(selectedData.date))
             .attr('x2', xAxisGenerator(selectedData.date))
             .attr('y1', yAxisGenerator(selectedData.value) - 24)
-            .attr('y2', body.height);
+            .attr('y2', dimensions.height - body.margin.bottom - body.margin.top);
     }
 };
 

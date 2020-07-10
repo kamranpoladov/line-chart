@@ -1,0 +1,62 @@
+$width: 800px;
+$height: 400px;
+$margin-top: 20px;
+$margin-bottom: 50px;
+$margin-right: 50px;
+$margin-left: 50px;
+$font: .8em sans-serif;
+
+.container {
+    width: 100%;
+    min-height: $height - $margin-top - $margin-bottom;
+}
+
+.chart-body {
+    transform: translate($margin-left, $margin-top);
+}
+
+.x-axis {
+    font: $font;
+}
+
+.y-axis {
+    font: $font
+}
+
+.line-path {
+    stroke: #6ad370;
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.area-path {
+    fill: #edfaea;
+}
+
+.focus-line {
+    stroke-dasharray: 1, 5;
+    stroke: black;
+}
+
+.focus-circle {
+    stroke: #6ad370;
+    fill: #6ad370;
+    opacity: 0;
+    r: 5px;
+}
+
+.focus-text {
+    font: $font;
+    text-anchor: middle;
+    font-weight: bold;
+    opacity: 0;
+}
+
+.pointer-space {
+    fill: none;
+    pointer-events: all;
+    width: $width + $margin-right + $margin-left;
+    height: $height + $margin-top + $margin-bottom;
+    x: -$margin-left;
+    y: -$margin-top;
+}

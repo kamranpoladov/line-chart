@@ -1,0 +1,30 @@
+.wrapper {
+    margin: .5em;
+}
+
+.up {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.down {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.component {
+    border: gray .5px solid;
+    border-radius: 5px;
+    min-width: 20%;
+    min-height: 100px;
+    margin: 10px;
+}
+
+.component-1 {
+    border: gray .5px solid;
+    border-radius: 5px;
+    min-width: 20%;
+    margin: 10px;
+}

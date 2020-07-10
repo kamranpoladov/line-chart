@@ -15,8 +15,18 @@ import TestComponent from './TestComponent';
 // }
 
 const App = () => (
-  <div>
-    <TestComponent />
+  <div styleName='wrapper'>
+    <section styleName='up'>
+      <div styleName='component' />
+      <div styleName='component' />
+      <div styleName='component' />
+      <div styleName='component' />
+    </section>
+    <section styleName='down'>
+      <TestComponent />
+      <div styleName='component-1' />
+      <div styleName='component-1' />
+    </section>
   </div>
 );
 
