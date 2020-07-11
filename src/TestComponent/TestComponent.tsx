@@ -50,6 +50,8 @@ const TestComponent: React.FunctionComponent = () => {
 				focusedInput={focusedInput}
 				onFocusChange={focusedInput => setFocusedInput(focusedInput)}
 				isOutsideRange={(day) => !isInclusivelyBeforeDay(day, moment())}
+				orientation={"horizontal"}
+				numberOfMonths={1}
 			/>
 			<div styleName='buttons'>
 				<a styleName='range-button' 
