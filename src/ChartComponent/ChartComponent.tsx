@@ -48,7 +48,6 @@ const ChartComponent: React.FunctionComponent<
 
     useEffect(() => {
         if (!dimensions) return;
-
         const xAxisGenerator: d3.ScaleTime<number, number> = d3.scaleTime()
             .domain([range.rangeLeft, range.rangeRight])
             .range([0, dimensions.width - body.margin.left - body.margin.right]);

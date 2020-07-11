@@ -6,34 +6,35 @@ export const rangeToFormat = (range: Range): string => {
     const timeDifference = range.rangeRight.getTime() - range.rangeLeft.getTime();
     if (timeDifference <= 6 * timeStamps.month) {
         return '%d %b';
-    } else if (timeDifference <= 4 * timeStamps.year) {
+    } else if (timeDifference <= 3 * timeStamps.year) {
         return '%b %Y';
     } else {
         return '%Y';
     }
 };
 
-export const rangeToStep = (range: Range): Step => {
+export const rangeToStep = (range: Range, isMobile: boolean): Step => {
     const timeDifference = range.rangeRight.getTime() - range.rangeLeft.getTime();
-    if (timeDifference <= timeStamps.month) {
+    const multiplier = isMobile ? 2 : 1;
+    if (timeDifference <= timeStamps.day * 7 * 4) {
         return {
             interval: d3.timeDay,
-            every: weekDiff(range.rangeLeft, range.rangeRight)
+            every: weekDiff(range.rangeLeft, range.rangeRight) * multiplier || 1
         }
     } else if (timeDifference <= timeStamps.month * 6) {
         return {
             interval: d3.timeWeek,
-            every: monthDiff(range.rangeLeft, range.rangeRight)
+            every: monthDiff(range.rangeLeft, range.rangeRight) * multiplier || 1
         }
-    } else if (timeDifference <= timeStamps.year * 4) {
+    } else if (timeDifference <= timeStamps.year * 3) {
         return {
             interval: d3.timeMonth,
-            every: yearDiff(range.rangeLeft, range.rangeRight) * 2
+            every: yearDiff(range.rangeLeft, range.rangeRight) * 2 * multiplier || 1
         }
     } else {
         return {
             interval: d3.timeYear,
-            every: 1
+            every: 1 * multiplier
         }
     }
 };

@@ -28,7 +28,7 @@ export const mousemove = (
     const x0 = xAxisGenerator.invert(d3.mouse(d3.event.currentTarget)[0]);
     const i = bisect(data, x0, 1);
     const selectedData = data[i];
-    if (selectedData.date <= range.rangeRight && selectedData.date >= range.rangeLeft) {
+    if (selectedData && selectedData.date <= range.rangeRight && selectedData.date >= range.rangeLeft) {
         focusCircle
             .attr('cx', xAxisGenerator(selectedData.date))
             .attr('cy', yAxisGenerator(selectedData.value));

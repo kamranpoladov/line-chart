@@ -17,14 +17,14 @@
 .component {
     border: gray .5px solid;
     border-radius: 5px;
-    min-width: 20%;
     min-height: 100px;
     margin: 10px;
 }
 
-.component-1 {
-    border: gray .5px solid;
-    border-radius: 5px;
+.upper {
+    min-width: 22.4%;
+}
+
+.bottom {
     min-width: 20%;
-    margin: 10px;
 }

@@ -17,15 +17,15 @@ import TestComponent from './TestComponent';
 const App = () => (
   <div styleName='wrapper'>
     <section styleName='up'>
-      <div styleName='component' />
-      <div styleName='component' />
-      <div styleName='component' />
-      <div styleName='component' />
+      <div styleName='component upper' />
+      <div styleName='component upper' />
+      <div styleName='component upper' />
+      <div styleName='component upper' />
     </section>
     <section styleName='down'>
       <TestComponent />
-      <div styleName='component-1' />
-      <div styleName='component-1' />
+      <div styleName='component bottom' />
+      <div styleName='component bottom' />
     </section>
   </div>
 );
