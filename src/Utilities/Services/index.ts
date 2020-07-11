@@ -1,14 +1,14 @@
 import { Range, PlotProps, DataPoint } from "../../Interfaces";
 
 export const weekDiff = (startDate: Date, endDate: Date): number => {
-    return Math.round((endDate.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000));
+    return Math.floor((endDate.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000) + 1);
 };
 
 export const monthDiff = (startDate: Date, endDate: Date): number => {
     let months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
     months -= startDate.getMonth();
     months += endDate.getMonth();
-    return months <= 0 ? 0 : months;
+    return months <= 0 ? 1 : months;
 };
 
 export const yearDiff = (startDate: Date, endDate: Date): number => {

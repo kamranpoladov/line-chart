@@ -16,10 +16,10 @@ export const rangeToFormat = (range: Range): string => {
 export const rangeToStep = (range: Range, isMobile: boolean): Step => {
     const timeDifference = range.rangeRight.getTime() - range.rangeLeft.getTime();
     const multiplier = isMobile ? 2 : 1;
-    if (timeDifference <= timeStamps.day * 27) {
+    if (timeDifference <= timeStamps.day * 31) {
         return {
             interval: d3.timeDay,
-            every: weekDiff(range.rangeLeft, range.rangeRight) * multiplier || 1 * multiplier
+            every: (weekDiff(range.rangeLeft, range.rangeRight) + 1) * multiplier || 1 * multiplier
         }
     } else if (timeDifference <= timeStamps.month * 6) {
         return {

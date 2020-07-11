@@ -62,8 +62,9 @@ const ChartComponent: React.FunctionComponent<
                 .attr('opacity', '0');
         
         const yAxisGenerator: d3.ScaleLinear<number, number> = d3.scaleLinear()
-            .domain([minForRange(_data, range), maxForRange(_data, range) + 10])
-            .range([dimensions.height - body.margin.top - body.margin.bottom, 0]);
+            .domain([minForRange(_data, range), maxForRange(_data, range)])
+            .range([dimensions.height - body.margin.top - body.margin.bottom, 0])
+            .nice();
         d3.select(yAxisRef.current)
             .call(d3.axisLeft(yAxisGenerator)
                 .tickSize(0)
