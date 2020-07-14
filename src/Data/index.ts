@@ -7,8 +7,8 @@ const data: PlotProps = {
     ]
 };
 
-let firstDate = new Date(2010, 6, 11);
-let secondDate = new Date(2020, 6, 11);
+const firstDate = new Date(2010, 6, 13);
+const secondDate = new Date(2020, 6, 13);
 
 while( firstDate < secondDate ) {
     firstDate.setDate(firstDate.getDate() + 1);

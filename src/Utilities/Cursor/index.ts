@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { DataPoint, PlotProps, Range } from '../../Interfaces';
+import { DataPoint, Range } from '../../Interfaces';
 import { body } from '../Styles';
 import { ContentRect } from 'resize-observer/lib/ContentRect';
 

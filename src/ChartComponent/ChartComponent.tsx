@@ -3,11 +3,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { Range, DataPoint, PlotProps, Step } from '../Interfaces';
 import { mousemove, mouseover, mouseout } from '../Utilities/Cursor';
-import { body, cursor } from '../Utilities/Styles';
+import { body } from '../Utilities/Styles';
 import { maxForRange, minForRange } from '../Utilities/MaxMin';
 import { filterData } from '../Utilities/Services';
 import { ResizeObserver } from 'resize-observer';
 import { ContentRect } from 'resize-observer/lib/ContentRect';
+import PropTypes from 'prop-types';
 
 const useResizeObserver = (ref: React.MutableRefObject<any>) => {
     const [dimensions, setDimensions] = useState<ContentRect | null>(null);
@@ -62,7 +63,7 @@ const ChartComponent: React.FunctionComponent<
                 .attr('opacity', '0');
         
         const yAxisGenerator: d3.ScaleLinear<number, number> = d3.scaleLinear()
-            .domain([minForRange(_data, range), maxForRange(_data, range)])
+            .domain([minForRange(_data, range), maxForRange(_data, range) + 10])
             .range([dimensions.height - body.margin.top - body.margin.bottom, 0])
             .nice();
         d3.select(yAxisRef.current)
@@ -107,7 +108,7 @@ const ChartComponent: React.FunctionComponent<
                 mouseout(focusCircle, focusText, focusLine);
             });
 
-    }, [range, dimensions]);
+    }, [range, dimensions, _data, dateFormat, step]);
 
     return (
         <div ref={wrapRef}>
@@ -128,5 +129,12 @@ const ChartComponent: React.FunctionComponent<
         </div>
     );
 };
+
+ChartComponent.propTypes = {
+    range: PropTypes.any.isRequired,
+    dateFormat: PropTypes.string.isRequired,
+    data: PropTypes.any.isRequired,
+    step: PropTypes.any.isRequired
+}
 
 export default ChartComponent;
