@@ -1,31 +1,13 @@
 import './ChartComponent.scss';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { Range, DataPoint, PlotProps, Step } from '../Interfaces';
-import { mousemove, mouseover, mouseout } from '../Utilities/Cursor';
-import { body } from '../Utilities/Styles';
-import { maxForRange, minForRange } from '../Utilities/MaxMin';
-import { filterData } from '../Utilities/Services';
-import { ResizeObserver } from 'resize-observer';
-import { ContentRect } from 'resize-observer/lib/ContentRect';
+import { Range, DataPoint, PlotProps, Step } from '../Shared/Interfaces';
+import { mousemove, mouseover, mouseout } from './Utilities/cursor';
+import { body } from './Utilities/constants';
+import { maxForRange, minForRange } from './Utilities/maxMin';
+import { filterData } from '../Shared/Utilities';
 import PropTypes from 'prop-types';
-
-const useResizeObserver = (ref: React.MutableRefObject<any>) => {
-    const [dimensions, setDimensions] = useState<ContentRect | null>(null);
-    useEffect(() => {
-        const observeTarget = ref.current;
-        const resizeObserver = new ResizeObserver((entries) => {
-            entries.forEach((entry) => {
-                setDimensions(entry.contentRect);
-            });
-        })
-        resizeObserver.observe(observeTarget);
-        return () => {
-            resizeObserver.unobserve(observeTarget);
-        };
-    }, [ref]);
-    return dimensions;
-}
+import { useResizeObserver } from './Utilities/resizeObserver';
 
 const ChartComponent: React.FunctionComponent<
     { range: Range, dateFormat: string, data: PlotProps, step: Step }
@@ -33,17 +15,17 @@ const ChartComponent: React.FunctionComponent<
 
     const _data = filterData(range, data);
     
-    const wrapRef = useRef((null as unknown) as HTMLDivElement);
-    const mainSvgRef = useRef((null as unknown) as SVGSVGElement);
-    const chartBodyRef = useRef((null as unknown) as SVGGElement);
-    const xAxisRef = useRef((null as unknown) as SVGGElement);
-    const yAxisRef = useRef((null as unknown) as SVGGElement);
-    const areaPathRef = useRef((null as unknown) as SVGPathElement);
-    const linePathRef = useRef((null as unknown) as SVGPathElement);
-    const focusLineRef = useRef((null as unknown) as SVGLineElement);
-    const focusCircleRef = useRef((null as unknown) as SVGCircleElement);
-    const focusTextRef = useRef((null as unknown) as SVGTextElement);
-    const pointerSpaceRef = useRef((null as unknown) as SVGRectElement);
+    const wrapRef = useRef<HTMLDivElement>(null);
+    const mainSvgRef = useRef<SVGSVGElement>(null);
+    const chartBodyRef = useRef<SVGGElement>(null);
+    const xAxisRef = useRef<SVGGElement>(null);
+    const yAxisRef = useRef<SVGGElement>(null);
+    const areaPathRef = useRef<SVGPathElement>(null);
+    const linePathRef = useRef<SVGPathElement>(null);
+    const focusLineRef = useRef<SVGLineElement>(null);
+    const focusCircleRef = useRef<SVGCircleElement>(null);
+    const focusTextRef = useRef<SVGTextElement>(null);
+    const pointerSpaceRef = useRef<SVGRectElement>(null);
 
     const dimensions = useResizeObserver(wrapRef);
 
@@ -52,7 +34,7 @@ const ChartComponent: React.FunctionComponent<
         const xAxisGenerator: d3.ScaleTime<number, number> = d3.scaleTime()
             .domain([range.rangeLeft, range.rangeRight])
             .range([0, dimensions.width - body.margin.left - body.margin.right]);
-        d3.select(xAxisRef.current)
+        xAxisRef.current && d3.select(xAxisRef.current)
             .attr('transform', `translate(0, ${dimensions.height - body.margin.bottom - body.margin.top})`)
             .call(d3.axisBottom(xAxisGenerator)
                 .tickSize(0)
@@ -61,12 +43,12 @@ const ChartComponent: React.FunctionComponent<
                 .tickPadding(20))
             .select('.domain')
                 .attr('opacity', '0');
-        
+    
         const yAxisGenerator: d3.ScaleLinear<number, number> = d3.scaleLinear()
             .domain([minForRange(_data, range), maxForRange(_data, range) + 10])
             .range([dimensions.height - body.margin.top - body.margin.bottom, 0])
             .nice();
-        d3.select(yAxisRef.current)
+        yAxisRef.current && d3.select(yAxisRef.current)
             .call(d3.axisLeft(yAxisGenerator)
                 .tickSize(0)
                 .tickPadding(30))

@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
-import { Range, Step } from '../../Interfaces/index';
-import { timeStamps, weekDiff, monthDiff, yearDiff } from '../Services/index';
+import { Range, Step } from '../../Shared/Interfaces/index';
+import { weekDiff, monthDiff, yearDiff } from '../../Shared/Utilities';
+import { timeStamps } from '../../ChartComponent/Utilities/constants';
 
 export const rangeToFormat = (range: Range): string => {
     const timeDifference = range.rangeRight.getTime() - range.rangeLeft.getTime();

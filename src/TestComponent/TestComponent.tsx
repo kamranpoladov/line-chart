@@ -3,12 +3,13 @@ import 'react-dates/lib/css/_datepicker.css';
 import './TestComponent.scss';
 
 import React, { useState } from 'react';
-import { Range, Step } from '../Interfaces';
+import { Range, Step } from '../Shared/Interfaces';
 import ChartComponent from '../ChartComponent';
-import data from '../Data';
-import { rangeToFormat, rangeToStep } from '../Utilities/FormatDate/index';
+import data from '../Shared/Data';
+import { rangeToFormat, rangeToStep } from './Utilities/formatDate';
 import { DateRangePicker, isInclusivelyBeforeDay, FocusedInputShape } from 'react-dates';
 import moment from 'moment';
+import { getRangeButtons } from './Utilities/rangeButtons';
 
 const TestComponent: React.FunctionComponent = () => {
 	const
@@ -39,6 +40,8 @@ const TestComponent: React.FunctionComponent = () => {
 		setStep(rangeToStep({ rangeLeft: leftRangeDate, rangeRight: rightRangeDate }, window.innerWidth <= 450));
 	};
 
+	const rangeButtons = getRangeButtons(range, data);
+
 	return (
 		<div styleName='wrapper'>
 			<DateRangePicker
@@ -54,103 +57,18 @@ const TestComponent: React.FunctionComponent = () => {
 				numberOfMonths={1}
 			/>
 			<div styleName='buttons'>
-				<a styleName='range-button' 
-					onClick={
-					() => handleRange(
-						new Date(
-							range.rangeRight.getFullYear(),
-							range.rangeRight.getMonth(), 
-							range.rangeRight.getDate() - 6
-						), 
-						range.rangeRight
-						)}>1 week</a>
-				<a styleName='range-button' 
-					onClick={
-					() => handleRange(
-						new Date(
-							range.rangeRight.getFullYear(),
-							range.rangeRight.getMonth(), 
-							range.rangeRight.getDate() - 13
-						), 
-						range.rangeRight
-						)}>2 weeks</a>
-				<a styleName='range-button' 
-					onClick={
-					() => handleRange(
-						new Date(
-							range.rangeRight.getFullYear(),
-							range.rangeRight.getMonth() - 1, 
-							range.rangeRight.getDate()
-						), 
-						range.rangeRight
-						)}>4 weeks</a>
-				<a styleName='range-button' 
-					onClick={
-					() => handleRange(
-						new Date(
-							range.rangeRight.getFullYear(),
-							range.rangeRight.getMonth() - 2, 
-							range.rangeRight.getDate()
-						), 
-						range.rangeRight
-						)}>2 months</a>
-				<a styleName='range-button' 
-					onClick={
-					() => handleRange(
-						new Date(
-							range.rangeRight.getFullYear(),
-							range.rangeRight.getMonth() - 3, 
-							range.rangeRight.getDate()
-						), 
-						range.rangeRight
-						)}>3 months</a>
-				<a styleName='range-button' 
-					onClick={
-					() => handleRange(
-						new Date(
-							range.rangeRight.getFullYear(),
-							range.rangeRight.getMonth() - 6, 
-							range.rangeRight.getDate()
-						), 
-						range.rangeRight
-						)}>6 months</a>
-				<div styleName='dropdown'>
-					<a styleName='range-button'>
-						More
-					</a>
-					<div styleName='dropdown-content'>
-						<a styleName='range-button' 
-						onClick={
-						() => handleRange(
-							new Date(
-								range.rangeRight.getFullYear() - 1,
-								range.rangeRight.getMonth(), 
-								range.rangeRight.getDate()
-							), 
-							range.rangeRight
-							)}>1 year</a>
-					<a styleName='range-button' 
-						onClick={
-						() => handleRange(
-							new Date(
-								range.rangeRight.getFullYear() - 3,
-								range.rangeRight.getMonth(), 
-								range.rangeRight.getDate()
-							), 
-							range.rangeRight
-							)}>3 years</a>
-					<a styleName='range-button'
-						onClick={
-						() => handleRange(
-							new Date(
-								range.rangeRight.getFullYear() - 5,
-								range.rangeRight.getMonth(), 
-								range.rangeRight.getDate()
-							), 
-							range.rangeRight
-							)}>5 years</a>
-					</div>
-				</div>
+				{rangeButtons.map((value, index) => {
+					if (value.isEnabled) {
+						return (
+							<a 	key={index} 
+								styleName='range-button'
+								onClick = {
+									() => handleRange(value.date, rightRangeInit)
+								}
+								>{value.label}</a>
+						);
+					}
+				})}
 			</div>
 			<ChartComponent range={range} dateFormat={dateFormat} data={data} step={step} />
 		</div>

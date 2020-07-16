@@ -1,14 +1,14 @@
 import * as d3 from 'd3';
-import { DataPoint, Range } from '../../Interfaces';
-import { body } from '../Styles';
+import { DataPoint, Range } from '../../Shared/Interfaces';
+import { body } from './constants';
 import { ContentRect } from 'resize-observer/lib/ContentRect';
 
 const bisect = d3.bisector<DataPoint, Date>((d) => d.date).right;
 
 export const mouseover = (
-        focusCircle: d3.Selection<SVGCircleElement, unknown, null, any>,
-        focusText: d3.Selection<SVGTextElement, unknown, null, any>,
-        focusLine: d3.Selection<SVGLineElement, unknown, null, any>
+        focusCircle: d3.Selection<SVGCircleElement | null, unknown, null, any>,
+        focusText: d3.Selection<SVGTextElement | null, unknown, null, undefined>,
+        focusLine: d3.Selection<SVGLineElement | null, unknown, null, any>
 ) => {
     focusCircle.style('opacity', 1);
     focusText.style('opacity', 1);
@@ -19,9 +19,9 @@ export const mousemove = (
         xAxisGenerator: d3.ScaleTime<number, number>,
         yAxisGenerator: d3.ScaleLinear<number, number>,
         data: DataPoint[],
-        focusCircle: d3.Selection<SVGCircleElement, unknown, null, any>,
-        focusText: d3.Selection<SVGTextElement, unknown, null, any>,
-        focusLine: d3.Selection<SVGLineElement, unknown, null, any>,
+        focusCircle: d3.Selection<SVGCircleElement | null, unknown, null, any>,
+        focusText: d3.Selection<SVGTextElement | null, unknown, null, undefined>,
+        focusLine: d3.Selection<SVGLineElement | null, unknown, null, any>,
         range: Range,
         dimensions: ContentRect
 ) => {
@@ -45,9 +45,9 @@ export const mousemove = (
 };
 
 export const mouseout = (
-    focusCircle: d3.Selection<SVGCircleElement, unknown, null, any>,
-    focusText: d3.Selection<SVGTextElement, unknown, null, any>,
-    focusLine: d3.Selection<SVGLineElement, unknown, null, any>
+    focusCircle: d3.Selection<SVGCircleElement | null, unknown, null, any>,
+    focusText: d3.Selection<SVGTextElement | null, unknown, null, undefined>,
+    focusLine: d3.Selection<SVGLineElement | null, unknown, null, any>
 ) => {
     focusCircle.style('opacity', 0);
     focusText.style('opacity', 0);
