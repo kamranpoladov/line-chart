@@ -1,13 +1,20 @@
 import * as d3 from 'd3';
 import { Range, Step } from '../../Shared/Interfaces/index';
-import { weekDiff, monthDiff, yearDiff } from '../../Shared/Utilities';
-import { timeStamps } from '../../ChartComponent/Utilities/constants';
+import moment from 'moment';
 
 export const rangeToFormat = (range: Range): string => {
-    const timeDifference = range.rangeRight.getTime() - range.rangeLeft.getTime();
-    if (timeDifference <= 6 * timeStamps.month) {
+    const rangeLeftMoment = moment([
+        range.rangeLeft.getFullYear(), 
+        range.rangeLeft.getMonth(), 
+        range.rangeLeft.getDate()]);
+    const rangeRightMoment = moment([
+        range.rangeRight.getFullYear(), 
+        range.rangeRight.getMonth(), 
+        range.rangeRight.getDate()]);
+    
+    if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 6) {
         return '%d %b';
-    } else if (timeDifference <= 3 * timeStamps.year) {
+    } else if (rangeRightMoment.diff(rangeLeftMoment, 'years') <= 3) {
         return '%b %Y';
     } else {
         return '%Y';
@@ -15,22 +22,30 @@ export const rangeToFormat = (range: Range): string => {
 };
 
 export const rangeToStep = (range: Range, isMobile: boolean): Step => {
-    const timeDifference = range.rangeRight.getTime() - range.rangeLeft.getTime();
+    const rangeLeftMoment = moment([
+        range.rangeLeft.getFullYear(), 
+        range.rangeLeft.getMonth(), 
+        range.rangeLeft.getDate()]);
+    const rangeRightMoment = moment([
+        range.rangeRight.getFullYear(), 
+        range.rangeRight.getMonth(), 
+        range.rangeRight.getDate()]);
+
     const multiplier = isMobile ? 2 : 1;
-    if (timeDifference <= timeStamps.day * 31) {
+    if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 1) {
         return {
             interval: d3.timeDay,
-            every: (weekDiff(range.rangeLeft, range.rangeRight) + 1) * multiplier || 1 * multiplier
+            every: (rangeRightMoment.diff(rangeLeftMoment, 'weeks') + 2) * multiplier || 1 * multiplier
         }
-    } else if (timeDifference <= timeStamps.month * 6) {
+    } else if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 6) {
         return {
             interval: d3.timeWeek,
-            every: monthDiff(range.rangeLeft, range.rangeRight) * multiplier || 1 * multiplier
+            every: rangeRightMoment.diff(rangeLeftMoment, 'months') * multiplier || 1 * multiplier
         }
-    } else if (timeDifference <= timeStamps.year * 3) {
+    } else if (rangeRightMoment.diff(rangeLeftMoment, 'years') <= 3) {
         return {
             interval: d3.timeMonth,
-            every: yearDiff(range.rangeLeft, range.rangeRight) * 2 * multiplier || 1 * multiplier
+            every: rangeRightMoment.diff(rangeLeftMoment, 'years') * 2 * multiplier || 1 * multiplier
         }
     } else {
         return {
