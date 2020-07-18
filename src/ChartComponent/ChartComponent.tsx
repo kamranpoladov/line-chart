@@ -5,7 +5,7 @@ import { Range, DataPoint, PlotProps, Step } from '../Shared/Interfaces';
 import { mousemove, mouseover, mouseout } from './Utilities/cursor';
 import { body } from './Utilities/constants';
 import { maxForRange, minForRange } from './Utilities/maxMin';
-import { filterData } from '../Shared/Utilities';
+import { filterData } from '../Shared/Data/filterData';
 import PropTypes from 'prop-types';
 import { useResizeObserver } from './Utilities/resizeObserver';
 
@@ -14,7 +14,6 @@ const ChartComponent: React.FunctionComponent<
     > = ({ range, dateFormat, data, step }) => {
 
     const _data = filterData(range, data);
-    console.log(range);
     const wrapRef = useRef<HTMLDivElement>(null);
     const mainSvgRef = useRef<SVGSVGElement>(null);
     const chartBodyRef = useRef<SVGGElement>(null);
