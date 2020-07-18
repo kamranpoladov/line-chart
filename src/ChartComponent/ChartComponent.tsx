@@ -13,7 +13,7 @@ const ChartComponent: React.FunctionComponent<
     { range: Range, dateFormat: string, data: PlotProps, step: Step }
     > = ({ range, dateFormat, data, step }) => {
 
-    const _data = filterData(range, data);
+    const _data = filterData(range, data.data);
     const wrapRef = useRef<HTMLDivElement>(null);
     const mainSvgRef = useRef<SVGSVGElement>(null);
     const chartBodyRef = useRef<SVGGElement>(null);
@@ -44,11 +44,11 @@ const ChartComponent: React.FunctionComponent<
                 .attr('opacity', '0');
     
         const yAxisGenerator: d3.ScaleLinear<number, number> = d3.scaleLinear()
-            .domain([minForRange(_data, range), maxForRange(_data, range) + 10])
-            .range([dimensions.height - body.margin.top - body.margin.bottom, 0])
-            .nice();
+            .domain([minForRange(_data, range), maxForRange(_data, range) * 1.1])
+            .range([dimensions.height - body.margin.top - body.margin.bottom, 0]);
         yAxisRef.current && d3.select(yAxisRef.current)
             .call(d3.axisLeft(yAxisGenerator)
+                .ticks(5, 's')
                 .tickSize(0)
                 .tickPadding(30))
             .select('.domain')

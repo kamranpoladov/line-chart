@@ -35,7 +35,7 @@ export const rangeToStep = (range: Range, isMobile: boolean): Step => {
     if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 1) {
         return {
             interval: d3.timeDay,
-            every: (rangeRightMoment.diff(rangeLeftMoment, 'weeks') + 2) * multiplier || 1 * multiplier
+            every: (rangeRightMoment.diff(rangeLeftMoment, 'weeks') + 1) * multiplier || 1 * multiplier
         }
     } else if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 6) {
         return {

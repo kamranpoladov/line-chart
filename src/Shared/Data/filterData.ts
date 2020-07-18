@@ -1,18 +1,18 @@
-import { Range, PlotProps, DataPoint } from "../Interfaces";
+import { Range, DataPoint } from "../Interfaces";
 // import simplify from 'simplify-js';
 
-export const filterData = (range: Range, data: PlotProps): DataPoint[] => {
-    const amountOfDataPoints = data.data.filter((dataPoint) => {
-        return dataPoint.date >= range.rangeLeft && dataPoint.date <= range.rangeRight;
-    }).length;
+export const filterData = (range: Range, data: DataPoint[]): DataPoint[] => {
+    const amountOfDataPoints = data.filter((dataPoint) => 
+        dataPoint.date >= range.rangeLeft && dataPoint.date <= range.rangeRight
+    ).length;
 
     if (amountOfDataPoints >= 100) {
-        return data.data.filter((_, i) => {
+        return data.filter((_, i) => {
             const skip = Math.round(amountOfDataPoints / 100);
             return i % skip == 0;
         });
     }
-    return data.data;
+    return data;
     // console.log(data.data.length);
     // if (monthDiff(range.rangeLeft, range.rangeRight) >= 6) {
         // const dataDuplicate: Array<{date: number, value: number}> = [];
