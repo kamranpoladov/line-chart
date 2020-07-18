@@ -14,7 +14,7 @@ const ChartComponent: React.FunctionComponent<
     > = ({ range, dateFormat, data, step }) => {
 
     const _data = filterData(range, data);
-    
+    console.log(range);
     const wrapRef = useRef<HTMLDivElement>(null);
     const mainSvgRef = useRef<SVGSVGElement>(null);
     const chartBodyRef = useRef<SVGGElement>(null);
