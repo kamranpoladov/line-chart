@@ -31,7 +31,7 @@ $font: .8em sans-serif;
 }
 
 .area-path {
-    fill: #edfaea;
+    fill: url(#areaGradient);
 }
 
 .focus-line {
@@ -43,7 +43,7 @@ $font: .8em sans-serif;
     stroke: #6ad370;
     fill: #6ad370;
     opacity: 0;
-    r: 5px;
+    r: 4px;
 }
 
 .focus-text {

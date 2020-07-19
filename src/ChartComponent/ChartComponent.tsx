@@ -25,6 +25,7 @@ const ChartComponent: React.FunctionComponent<
     const focusCircleRef = useRef<SVGCircleElement>(null);
     const focusTextRef = useRef<SVGTextElement>(null);
     const pointerSpaceRef = useRef<SVGRectElement>(null);
+    const areaGradientRef = useRef<SVGLinearGradientElement>(null);
 
     const dimensions = useResizeObserver(wrapRef);
 
@@ -53,6 +54,21 @@ const ChartComponent: React.FunctionComponent<
                 .tickPadding(30))
             .select('.domain')
                 .attr('opacity', '0');
+
+        const areaGradient = d3.select(areaGradientRef.current);
+
+        areaGradient
+            .attr('x1', '0%').attr('y1', '0%')
+            .attr('x2', '0%').attr('y2', '100%');
+    
+        areaGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', '#6ad370')
+            .attr('stop-opacity', 0.6);
+        areaGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', 'white')
+            .attr('stop-opacity', 0);
         
         d3.select(areaPathRef.current)
             .datum(_data)
@@ -97,6 +113,9 @@ const ChartComponent: React.FunctionComponent<
             <g ref={chartBodyRef} styleName='chart-body'>
                 <g ref={xAxisRef} styleName='x-axis' />
                 <g ref={yAxisRef} styleName='y-axis' />
+                <defs>
+                    <linearGradient ref={areaGradientRef} id='areaGradient' />
+                </defs>
                 <path ref={areaPathRef} styleName='area-path' />
                 <path ref={linePathRef} styleName='line-path' />
                 <g>

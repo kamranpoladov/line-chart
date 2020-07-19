@@ -30,40 +30,33 @@ const TestComponent: React.FunctionComponent = () => {
 	const [dateFormat, setDateFormat] = useState<string>(rangeToFormat(range));
 	const [step, setStep] = useState<Step>(rangeToStep(range, window.innerWidth <= 450));
 	const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null);
+	const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
 
 	const handleRange = (
 		leftRangeDate: Date = range.rangeLeft, 
-      	rightRangeDate: Date = range.rangeRight
+		rightRangeDate: Date = range.rangeRight,
+		index: number 
     ) => {
 		setRange({ ...range, rangeLeft: leftRangeDate, rangeRight: rightRangeDate });
 		setDateFormat(rangeToFormat({ rangeLeft: leftRangeDate, rangeRight: rightRangeDate }));
 		setStep(rangeToStep({ rangeLeft: leftRangeDate, rangeRight: rightRangeDate }, window.innerWidth <= 450));
+		setActiveButtonIndex(index);
 	};
 
 	const rangeButtons = getRangeButtons(range, data);
 
 	return (
 		<div styleName='wrapper'>
-			<DateRangePicker
-				startDate={moment(range.rangeLeft)}
-				startDateId='start_id'
-				endDate={moment(range.rangeRight)}
-				endDateId='end_id'
-				onDatesChange={({ startDate, endDate }) => handleRange(startDate?.toDate(), endDate?.toDate())}
-				focusedInput={focusedInput}
-				onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-				isOutsideRange={(day) => !isInclusivelyBeforeDay(day, moment())}
-				orientation={"horizontal"}
-				numberOfMonths={1}
-			/>
+			<h2>Abo analytics</h2>
 			<div styleName='buttons'>
 				{rangeButtons.map((value, index) => {
 					if (value.isEnabled) {
+						const styleName = activeButtonIndex === index ? 'range-button active' : 'range-button';
 						return (
 							<a 	key={index} 
-								styleName='range-button'
+								styleName={styleName}
 								onClick = {
-									() => handleRange(value.date, rightRangeInit)
+									() => handleRange(value.date, rightRangeInit, index)
 								}
 								>{value.label}</a>
 						);

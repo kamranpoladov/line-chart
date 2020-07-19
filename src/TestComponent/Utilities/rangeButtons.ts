@@ -1,8 +1,8 @@
 import { Range, PlotProps } from "../../Shared/Interfaces";
 
-const labels = ['1 week', '2 weeks', '4 weeks', '2 months', '3 months', '6 months', '1 year'];
+const labels = ['1 week', '2 weeks', '4 weeks', '2 months', '3 months', '6 months', 'All time'];
 
-const getRangeButtonDates = (range: Range, label: string): Date => {
+const getRangeButtonDates = (range: Range, label: string, data: PlotProps): Date => {
     switch (label) {
         case '1 week':
             return (new Date(
@@ -40,12 +40,8 @@ const getRangeButtonDates = (range: Range, label: string): Date => {
                 range.rangeRight.getMonth() - 6, 
                 range.rangeRight.getDate()
             ));
-        case '1 year':
-            return (new Date(
-                range.rangeRight.getFullYear() - 1,
-                range.rangeRight.getMonth(),
-                range.rangeRight.getDate()
-            ));
+        case 'All time':
+            return data.data[0].date;
         default:
             return (new Date(
                 range.rangeRight.getFullYear(),
@@ -55,8 +51,8 @@ const getRangeButtonDates = (range: Range, label: string): Date => {
     }
 }
 
-const isEnabled = (data: PlotProps, date: Date) => {
-    if (data.data[0].date.getTime() > date.getTime()) {
+const isEnabled = (data: PlotProps, date: Date, label: string) => {
+    if ((data.data[0].date.getTime() > date.getTime()) && label != labels[labels.length - 1]) {
         return false;
     }
     return true;
@@ -67,8 +63,8 @@ export const getRangeButtons = (range: Range, data: PlotProps): Array<{ label: s
     for (let i = 0; i < labels.length; i++) {
         result.push({
             label: labels[i],
-            date: getRangeButtonDates(range, labels[i]),
-            isEnabled: isEnabled(data, getRangeButtonDates(range, labels[i]))
+            date: getRangeButtonDates(range, labels[i], data),
+            isEnabled: isEnabled(data, getRangeButtonDates(range, labels[i], data), labels[i])
         });
     }
     return result;
