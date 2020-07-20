@@ -83,6 +83,7 @@ const ChartComponent = ({ defaultRange, data } : PlotProps) => {
             .datum(filteredData)
             .attr('d', d3.area<DataPoint>()
                 .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
+                .curve(d3.curveCardinal.tension(0.5))
                 .x((d) => xAxisGenerator(d.date))
                 .y0(yAxisGenerator(minForRange(filteredData, range)))
                 .y1((d) => yAxisGenerator(d.value))
@@ -93,6 +94,7 @@ const ChartComponent = ({ defaultRange, data } : PlotProps) => {
             .datum(filteredData)
             .attr('d', d3.line<DataPoint>()
                 .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
+                .curve(d3.curveCardinal.tension(0.5))
                 .x(d => xAxisGenerator(d.date))
                 .y(d => yAxisGenerator(d.value))
             );
@@ -120,7 +122,7 @@ const ChartComponent = ({ defaultRange, data } : PlotProps) => {
 
     return (
         <div styleName='wrapper'>
-            <h2>Abo analytics</h2>
+            <h2 styleName='title'>Abo analytics</h2>
             <div styleName='buttons'>
                 {rangeButtons.map((value, index) => {
                     if (value.isEnabled) {
@@ -146,8 +148,8 @@ const ChartComponent = ({ defaultRange, data } : PlotProps) => {
                         <g ref={yAxisRef} styleName='y-axis' />
                         <defs>
                             <linearGradient ref={areaGradientRef} id='areaGradient'>
-                                <stop offset='0%' styleName='gradient-start' />
-                                <stop offset='100%' styleName='gradient-stop' />
+                                <stop offset='83.17%' styleName='gradient-start' />
+                                <stop offset='99.18%' styleName='gradient-stop' />
                             </linearGradient>
                         </defs>
                         <path ref={areaPathRef} styleName='area-path' />

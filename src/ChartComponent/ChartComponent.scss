@@ -4,17 +4,20 @@ $margin-top: 20px;
 $margin-bottom: 50px;
 $margin-right: 50px;
 $margin-left: 50px;
-$color: #6ad370;
-$font-size: .9em;
+$color: #00CD46;
 
 .wrapper {
-    font-size: $font-size;
     border: gray .5px solid;
     border-radius: 5px;
-    padding: 0 1em 2em 1em;
+    padding: 2.3rem 1.5rem 2em 1.5rem;
     min-width: 50%;
     max-height: 400px;
     margin: .6em;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.8rem;
 }
 
 .container {
@@ -27,27 +30,27 @@ $font-size: .9em;
 }
 
 .x-axis {
-    font-size: inherit;
+    font-size: 1rem;
 }
 
 .y-axis {
     transform: translateX(10px);
-    font-size: inherit;
+    font-size: 1rem;
 }
 
 .line-path {
-    stroke: #6ad370;
-    stroke-width: 1.5;
+    stroke: $color;
+    stroke-width: 2px;
     fill: none;
 }
 
 .gradient-start {
-    stop-color: #c2fcb5;
+    stop-color: rgba(66, 205, 0, 0.1);
     stop-opacity: 1;
 }
 
 .gradient-stop {
-    stop-color: #e0fdd9;
+    stop-color: rgba(66, 205, 0, 0);
     stop-opacity: 0;
 }
 
@@ -61,14 +64,13 @@ $font-size: .9em;
 }
 
 .focus-circle {
-    stroke: #6ad370;
-    fill: #6ad370;
+    fill: $color;
     opacity: 0;
     r: 4px;
 }
 
 .focus-text {
-    font-size: inherit;
+    font-size: 1.2rem;
     text-anchor: middle;
     font-weight: bold;
     opacity: 0;
@@ -86,45 +88,53 @@ $font-size: .9em;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1em;
+    margin-top: 2.7rem;
 }
 
 .button {
     cursor: pointer;
     height: 1.5em;
-    font-size: inherit;
+    font-size: 1.3rem;
     margin-right: .5em;
-    color: grey;
-}
-
-@media only screen and (max-width: 515px) {
-    .wrapper {
-        font-size: .8em;
-    }
-}
-
-@media only screen and (max-width: 465px) {
-    .wrapper {
-        font-size: .7em;
-    }
-}
-
-@media only screen and (max-width: 400px) {
-    .wrapper {
-        font-size: .6em;
-    }
-}
-
-@media only screen and (max-width: 350px) {
-    .wrapper {
-        font-size: .55em;
-    }
+    color: #CFCFCF;
 }
 
 .active {
     color: black;
     font-weight: bold;
     border-bottom: black 2px solid;
+}
+
+// @media only screen and (max-width: 515px) {
+//     .wrapper {
+//         font-size: .8em;
+//     }
+// }
+
+@media only screen and (max-width: 450px) {
+    .button {
+        font-size: 1.1rem;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .button {
+        font-size: .9rem;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .button {
+        font-size: .8rem;
+    }
+
+    .x-axis {
+        font-size: .8rem;
+    }
+
+    .y-axis {
+        font-size: .8rem;
+    }
 }
 
 .button:hover {

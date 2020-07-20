@@ -13,7 +13,7 @@ export const rangeToFormat = (range: Range): string => {
         range.rangeRight.getDate()]);
     
     if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 6) {
-        return '%d %b';
+        return '%d.%m';
     } else if (rangeRightMoment.diff(rangeLeftMoment, 'years') <= 3) {
         return '%b %Y';
     } else {
