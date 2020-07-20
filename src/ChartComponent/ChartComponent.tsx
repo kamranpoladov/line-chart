@@ -112,7 +112,7 @@ const ChartComponent = ({ defaultRange, data } : PlotProps) => {
                 mouseover(focusCircle, focusText, focusLine);
             })
             .on('mousemove', () => {
-                mousemove(xAxisGenerator, yAxisGenerator, filteredData, focusCircle, focusText, focusLine, range, dimensions);
+                mousemove(xAxisGenerator, yAxisGenerator, filteredData, focusCircle, focusText, focusLine, range, dimensions);//, xAxisRef.current, yAxisRef.current);
             })
             .on('mouseout', () => {
                 mouseout(focusCircle, focusText, focusLine);

@@ -18,6 +18,7 @@ $color: #00CD46;
 .title {
     margin: 0;
     font-size: 1.8rem;
+    font-weight: 400;
 }
 
 .container {
@@ -66,13 +67,13 @@ $color: #00CD46;
 .focus-circle {
     fill: $color;
     opacity: 0;
-    r: 4px;
+    r: 3.5px;
 }
 
 .focus-text {
     font-size: 1.2rem;
     text-anchor: middle;
-    font-weight: bold;
+    font-weight: 500;
     opacity: 0;
 }
 
@@ -95,35 +96,36 @@ $color: #00CD46;
     cursor: pointer;
     height: 1.5em;
     font-size: 1.3rem;
+    font-weight: 400;
     margin-right: .5em;
     color: #CFCFCF;
 }
 
 .active {
     color: black;
-    font-weight: bold;
     border-bottom: black 2px solid;
 }
 
-// @media only screen and (max-width: 515px) {
-//     .wrapper {
-//         font-size: .8em;
-//     }
-// }
+.button:hover {
+    color: black;
+}
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 515px) {
     .button {
         font-size: 1.1rem;
     }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 460px) {
     .button {
         font-size: .9rem;
     }
 }
 
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 395px) {
+    .title {
+        font-size: 1.5rem;
+    }
     .button {
         font-size: .8rem;
     }
@@ -135,24 +137,4 @@ $color: #00CD46;
     .y-axis {
         font-size: .8rem;
     }
-}
-
-.button:hover {
-    color: black;
-    font-weight: bold;
-}
-
-.dropdown {
-    overflow: hidden;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
 }
