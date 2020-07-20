@@ -1,20 +1,28 @@
 import './ChartComponent.scss';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import { Range, DataPoint, PlotProps, Step } from '../Shared/Interfaces';
 import { mousemove, mouseover, mouseout } from './Utilities/cursor';
-import { body } from './Utilities/constants';
+import { body, mobileWidth } from './Utilities/constants';
 import { maxForRange, minForRange } from './Utilities/maxMin';
 import { filterData } from '../Shared/Data/filterData';
 import PropTypes from 'prop-types';
 import { useResizeObserver } from './Utilities/resizeObserver';
+import { rangeToFormat, rangeToStep } from './Utilities/formatDate';
+import { getRangeButtons } from './Utilities/rangeButtons';
 
-const ChartComponent: React.FunctionComponent<
-    { range: Range, dateFormat: string, data: PlotProps, step: Step }
-    > = ({ range, dateFormat, data, step }) => {
+const ChartComponent = ({ defaultRange, data } : PlotProps) => {
 
-    const _data = filterData(range, data.data);
-    const wrapRef = useRef<HTMLDivElement>(null);
+    const [range, setRange] = useState<Range>(defaultRange);
+    const [dateFormat, setDateFormat] = useState<string>(rangeToFormat(range));
+    const [step, setStep] = useState<Step>(rangeToStep(range));
+    const [activeButtonIndex, setActiveButtonIndex] = useState<number>(0);
+    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= mobileWidth);
+
+    const rangeButtons = getRangeButtons(range, data)
+    const filteredData = useMemo(() => filterData(range, data, isMobile), [range, data, isMobile]);
+
+    const chartWrapRef = useRef<HTMLDivElement>(null);
     const mainSvgRef = useRef<SVGSVGElement>(null);
     const chartBodyRef = useRef<SVGGElement>(null);
     const xAxisRef = useRef<SVGGElement>(null);
@@ -27,13 +35,25 @@ const ChartComponent: React.FunctionComponent<
     const pointerSpaceRef = useRef<SVGRectElement>(null);
     const areaGradientRef = useRef<SVGLinearGradientElement>(null);
 
-    const dimensions = useResizeObserver(wrapRef);
+    const dimensions = useResizeObserver(chartWrapRef);
+
+    const handleRangeChange = (
+        range: Range = defaultRange,
+        index: number
+    ) => {
+        setRange(range);
+        setDateFormat(rangeToFormat(range));
+        setStep(rangeToStep(range));
+        setActiveButtonIndex(index);
+    };
 
     useEffect(() => {
         if (!dimensions) return;
+        setIsMobile(window.innerWidth <= mobileWidth);
+        
         const xAxisGenerator: d3.ScaleTime<number, number> = d3.scaleTime()
             .domain([range.rangeLeft, range.rangeRight])
-            .range([0, dimensions.width - body.margin.left - body.margin.right]);
+            .range([0, dimensions.width - body.margin.right]);
         xAxisRef.current && d3.select(xAxisRef.current)
             .attr('transform', `translate(0, ${dimensions.height - body.margin.bottom - body.margin.top})`)
             .call(d3.axisBottom(xAxisGenerator)
@@ -45,7 +65,7 @@ const ChartComponent: React.FunctionComponent<
                 .attr('opacity', '0');
     
         const yAxisGenerator: d3.ScaleLinear<number, number> = d3.scaleLinear()
-            .domain([minForRange(_data, range), maxForRange(_data, range) * 1.1])
+            .domain([minForRange(filteredData, range), maxForRange(filteredData, range) * 1.1])
             .range([dimensions.height - body.margin.top - body.margin.bottom, 0]);
         yAxisRef.current && d3.select(yAxisRef.current)
             .call(d3.axisLeft(yAxisGenerator)
@@ -55,33 +75,22 @@ const ChartComponent: React.FunctionComponent<
             .select('.domain')
                 .attr('opacity', '0');
 
-        const areaGradient = d3.select(areaGradientRef.current);
-
-        areaGradient
+        d3.select(areaGradientRef.current)
             .attr('x1', '0%').attr('y1', '0%')
             .attr('x2', '0%').attr('y2', '100%');
-    
-        areaGradient.append('stop')
-            .attr('offset', '0%')
-            .attr('stop-color', '#6ad370')
-            .attr('stop-opacity', 0.6);
-        areaGradient.append('stop')
-            .attr('offset', '100%')
-            .attr('stop-color', 'white')
-            .attr('stop-opacity', 0);
         
         d3.select(areaPathRef.current)
-            .datum(_data)
+            .datum(filteredData)
             .attr('d', d3.area<DataPoint>()
                 .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
                 .x((d) => xAxisGenerator(d.date))
-                .y0(yAxisGenerator(minForRange(_data, range)))
+                .y0(yAxisGenerator(minForRange(filteredData, range)))
                 .y1((d) => yAxisGenerator(d.value))
             );
         
         
         d3.select(linePathRef.current)
-            .datum(_data)
+            .datum(filteredData)
             .attr('d', d3.line<DataPoint>()
                 .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
                 .x(d => xAxisGenerator(d.date))
@@ -95,46 +104,70 @@ const ChartComponent: React.FunctionComponent<
         const focusText = d3.select(focusTextRef.current);
 
         d3.select(pointerSpaceRef.current)
+            .style('width', dimensions.width)
+            .style('height', dimensions.height)
             .on('mouseover', () => {
                 mouseover(focusCircle, focusText, focusLine);
             })
             .on('mousemove', () => {
-                mousemove(xAxisGenerator, yAxisGenerator, _data, focusCircle, focusText, focusLine, range, dimensions);
+                mousemove(xAxisGenerator, yAxisGenerator, filteredData, focusCircle, focusText, focusLine, range, dimensions);
             })
             .on('mouseout', () => {
                 mouseout(focusCircle, focusText, focusLine);
             });
 
-    }, [range, dimensions, _data, dateFormat, step]);
+    }, [range, dimensions, filteredData, dateFormat, step]);
 
     return (
-        <div ref={wrapRef}>
-        <svg ref={mainSvgRef} styleName='container'>
-            <g ref={chartBodyRef} styleName='chart-body'>
-                <g ref={xAxisRef} styleName='x-axis' />
-                <g ref={yAxisRef} styleName='y-axis' />
-                <defs>
-                    <linearGradient ref={areaGradientRef} id='areaGradient' />
-                </defs>
-                <path ref={areaPathRef} styleName='area-path' />
-                <path ref={linePathRef} styleName='line-path' />
-                <g>
-                    <line ref={focusLineRef} styleName='focus-line' />
-                    <circle ref={focusCircleRef} styleName='focus-circle' />
-                    <text ref={focusTextRef} styleName='focus-text' />
-                </g>
-                <rect ref={pointerSpaceRef} styleName='pointer-space' />
-            </g>
-        </svg>
+        <div styleName='wrapper'>
+            <h2>Abo analytics</h2>
+            <div styleName='buttons'>
+                {rangeButtons.map((value, index) => {
+                    if (value.isEnabled) {
+                        const styleName = activeButtonIndex === index ? 'button active' : 'button';
+                        return (
+                            <a 	key={index} 
+                                styleName={styleName}
+                                onClick = {
+                                    () => handleRangeChange(
+                                        { rangeLeft: value.date, rangeRight: defaultRange.rangeRight },
+                                        index
+                                    )
+                                }
+                                >{value.label}</a>
+                        );
+                    }
+                })}
+            </div>
+            <div ref={chartWrapRef}>
+                <svg ref={mainSvgRef} styleName='container'>
+                    <g ref={chartBodyRef} styleName='chart-body'>
+                        <g ref={xAxisRef} styleName='x-axis' />
+                        <g ref={yAxisRef} styleName='y-axis' />
+                        <defs>
+                            <linearGradient ref={areaGradientRef} id='areaGradient'>
+                                <stop offset='0%' styleName='gradient-start' />
+                                <stop offset='100%' styleName='gradient-stop' />
+                            </linearGradient>
+                        </defs>
+                        <path ref={areaPathRef} styleName='area-path' />
+                        <path ref={linePathRef} styleName='line-path' />
+                        <g>
+                            <line ref={focusLineRef} styleName='focus-line' />
+                            <circle ref={focusCircleRef} styleName='focus-circle' />
+                            <text ref={focusTextRef} styleName='focus-text' />
+                        </g>
+                        <rect ref={pointerSpaceRef} styleName='pointer-space' />
+                    </g>
+                </svg>
+            </div>
         </div>
     );
 };
 
 ChartComponent.propTypes = {
-    range: PropTypes.any.isRequired,
-    dateFormat: PropTypes.string.isRequired,
-    data: PropTypes.any.isRequired,
-    step: PropTypes.any.isRequired
+    defaultRange: PropTypes.any.isRequired,
+    data: PropTypes.any.isRequired
 }
 
 export default ChartComponent;

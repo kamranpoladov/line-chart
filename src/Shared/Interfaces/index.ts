@@ -4,7 +4,8 @@ export interface Range {
 };
 
 export interface PlotProps {
-    data: Array<DataPoint>;
+	data: Array<DataPoint>,
+	defaultRange: Range
 };
 
 export interface DataPoint {

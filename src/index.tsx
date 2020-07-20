@@ -4,7 +4,8 @@ import React from 'react';
 import { render } from 'react-dom';
 
 import { register } from './serviceWorker';
-import TestComponent from './TestComponent';
+import ChartComponent from './ChartComponent';
+import data from './Shared/Data';
 
 // here we disable console and performance for better production experience
 // console.log(process.env.NODE_ENV);
@@ -14,7 +15,18 @@ import TestComponent from './TestComponent';
 //   console.log = () => undefined as any;
 // }
 
-const App = () => (
+const App = () => {
+  const
+  rightRangeInit = new Date(
+    new Date().getFullYear(), 
+    new Date().getMonth(), 
+    new Date().getDate()),
+  leftRangeInit = new Date(
+    new Date().getFullYear(), 
+    new Date().getMonth(), 
+    new Date().getDate());
+leftRangeInit.setDate(leftRangeInit.getDate() - 6);
+  return (
   <div styleName='wrapper'>
     <section styleName='up'>
       <div styleName='component upper' />
@@ -23,12 +35,16 @@ const App = () => (
       <div styleName='component upper' />
     </section>
     <section styleName='down'>
-      <TestComponent />
+      <ChartComponent 
+        defaultRange={{ rangeLeft: leftRangeInit, rangeRight: rightRangeInit }}
+        data={data}
+      />
       <div styleName='component bottom' />
       <div styleName='component bottom' />
     </section>
   </div>
-);
+  )
+};
 
 render(<App />, document.getElementById("root"));
 

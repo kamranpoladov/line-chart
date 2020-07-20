@@ -1,11 +1,6 @@
-import { PlotProps } from '../Interfaces';
+import { DataPoint } from '../Interfaces';
 
-const data: PlotProps = {
-    data: 
-    [
-
-    ]
-};
+const data: DataPoint[] = [];
 
 const firstDate = new Date(2010, 6, 13);
 const secondDate = new Date(
@@ -15,7 +10,7 @@ const secondDate = new Date(
 
 while( firstDate < secondDate ) {
     firstDate.setDate(firstDate.getDate() + 1);
-    data.data.push({ date: new Date(firstDate as unknown as VarDate), value: Math.floor(Math.random() * 3000) });
+    data.push({ date: new Date(firstDate as unknown as VarDate), value: Math.floor(Math.random() * 3000) });
 };
  
 

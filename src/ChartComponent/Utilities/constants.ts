@@ -3,8 +3,10 @@ export const body = {
     height: 400,
     margin: {
         top: 20,
-        right: 50,
+        right: 70,
         bottom: 50,
         left: 50 
     }
 };
+
+export const mobileWidth = 500;

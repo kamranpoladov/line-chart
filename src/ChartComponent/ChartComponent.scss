@@ -4,7 +4,18 @@ $margin-top: 20px;
 $margin-bottom: 50px;
 $margin-right: 50px;
 $margin-left: 50px;
-$font: .8em sans-serif;
+$color: #6ad370;
+$font-size: .9em;
+
+.wrapper {
+    font-size: $font-size;
+    border: gray .5px solid;
+    border-radius: 5px;
+    padding: 0 1em 2em 1em;
+    min-width: 50%;
+    max-height: 400px;
+    margin: .6em;
+}
 
 .container {
     width: 100%;
@@ -16,18 +27,28 @@ $font: .8em sans-serif;
 }
 
 .x-axis {
-    font: $font;
+    font-size: inherit;
 }
 
 .y-axis {
     transform: translateX(10px);
-    font: $font
+    font-size: inherit;
 }
 
 .line-path {
     stroke: #6ad370;
     stroke-width: 1.5;
     fill: none;
+}
+
+.gradient-start {
+    stop-color: #c2fcb5;
+    stop-opacity: 1;
+}
+
+.gradient-stop {
+    stop-color: #e0fdd9;
+    stop-opacity: 0;
 }
 
 .area-path {
@@ -47,7 +68,7 @@ $font: .8em sans-serif;
 }
 
 .focus-text {
-    font: $font;
+    font-size: inherit;
     text-anchor: middle;
     font-weight: bold;
     opacity: 0;
@@ -56,8 +77,72 @@ $font: .8em sans-serif;
 .pointer-space {
     fill: none;
     pointer-events: all;
-    width: $width + $margin-right + $margin-left;
-    height: $height + $margin-top + $margin-bottom;
     x: -$margin-left;
     y: -$margin-top;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.button {
+    cursor: pointer;
+    height: 1.5em;
+    font-size: inherit;
+    margin-right: .5em;
+    color: grey;
+}
+
+@media only screen and (max-width: 515px) {
+    .wrapper {
+        font-size: .8em;
+    }
+}
+
+@media only screen and (max-width: 465px) {
+    .wrapper {
+        font-size: .7em;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .wrapper {
+        font-size: .6em;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .wrapper {
+        font-size: .55em;
+    }
+}
+
+.active {
+    color: black;
+    font-weight: bold;
+    border-bottom: black 2px solid;
+}
+
+.button:hover {
+    color: black;
+    font-weight: bold;
+}
+
+.dropdown {
+    overflow: hidden;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }

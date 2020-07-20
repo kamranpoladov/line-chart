@@ -21,7 +21,7 @@ export const rangeToFormat = (range: Range): string => {
     }
 };
 
-export const rangeToStep = (range: Range, isMobile: boolean): Step => {
+export const rangeToStep = (range: Range): Step => {
     const rangeLeftMoment = moment([
         range.rangeLeft.getFullYear(), 
         range.rangeLeft.getMonth(), 
@@ -31,26 +31,31 @@ export const rangeToStep = (range: Range, isMobile: boolean): Step => {
         range.rangeRight.getMonth(), 
         range.rangeRight.getDate()]);
 
-    const multiplier = isMobile ? 2 : 1;
     if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 1) {
         return {
             interval: d3.timeDay,
-            every: (rangeRightMoment.diff(rangeLeftMoment, 'weeks') + 1) * multiplier || 1 * multiplier
+            every: (rangeRightMoment.diff(rangeLeftMoment, 'weeks') + 1) || 1
         }
     } else if (rangeRightMoment.diff(rangeLeftMoment, 'months') <= 6) {
         return {
             interval: d3.timeWeek,
-            every: rangeRightMoment.diff(rangeLeftMoment, 'months') * multiplier || 1 * multiplier
+            every: rangeRightMoment.diff(rangeLeftMoment, 'months') || 1
         }
     } else if (rangeRightMoment.diff(rangeLeftMoment, 'years') <= 3) {
         return {
             interval: d3.timeMonth,
-            every: rangeRightMoment.diff(rangeLeftMoment, 'years') * 2 * multiplier || 1 * multiplier
+            every: rangeRightMoment.diff(rangeLeftMoment, 'years') || 1
         }
-    } else {
+    } else if (rangeRightMoment.diff(rangeLeftMoment, 'years') <= 9) {
         return {
             interval: d3.timeYear,
-            every: 1 * multiplier
+            every: 1
+        }
+    }
+    else {
+        return {
+            interval: d3.timeYear,
+            every: 2
         }
     }
 };
