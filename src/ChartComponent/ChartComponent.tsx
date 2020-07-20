@@ -83,7 +83,7 @@ const ChartComponent = ({ defaultRange, data } : PlotProps) => {
             .datum(filteredData)
             .attr('d', d3.area<DataPoint>()
                 .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
-                .curve(d3.curveCardinal.tension(0.5))
+                // .curve(d3.curveCardinal.tension(0.5))
                 .x((d) => xAxisGenerator(d.date))
                 .y0(yAxisGenerator(minForRange(filteredData, range)))
                 .y1((d) => yAxisGenerator(d.value))
@@ -94,7 +94,7 @@ const ChartComponent = ({ defaultRange, data } : PlotProps) => {
             .datum(filteredData)
             .attr('d', d3.line<DataPoint>()
                 .defined((d) => d.date <= range.rangeRight && d.date >= range.rangeLeft)
-                .curve(d3.curveCardinal.tension(0.5))
+                // .curve(d3.curveCardinal.tension(0.5))
                 .x(d => xAxisGenerator(d.date))
                 .y(d => yAxisGenerator(d.value))
             );
