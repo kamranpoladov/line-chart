@@ -7,12 +7,12 @@ $margin-left: 50px;
 $color: #00CD46;
 
 .wrapper {
-    border: gray .5px solid;
-    border-radius: 5px;
-    padding: 2.3rem 1.5rem 2em 1.5rem;
+    border: 1px solid #E2E2E2;
+    border-radius: .8rem;
+    padding: 2.3rem 1.5rem 0 1.5rem;
     min-width: 50%;
     max-height: 400px;
-    margin: .6em;
+    margin: 0 2rem 2rem 0;
 }
 
 .title {
@@ -31,12 +31,11 @@ $color: #00CD46;
 }
 
 .x-axis {
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .y-axis {
-    transform: translateX(10px);
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .line-path {
@@ -94,10 +93,9 @@ $color: #00CD46;
 
 .button {
     cursor: pointer;
-    height: 1.5em;
+    height: 2.6rem;
     font-size: 1.3rem;
     font-weight: 400;
-    margin-right: .5em;
     color: #CFCFCF;
 }
 
