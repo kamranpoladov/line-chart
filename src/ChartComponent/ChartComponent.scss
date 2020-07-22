@@ -1,9 +1,9 @@
-$width: 800px;
-$height: 400px;
-$margin-top: 20px;
-$margin-bottom: 50px;
-$margin-right: 50px;
-$margin-left: 50px;
+$width: 80rem;
+$height: 40rem;
+$margin-top: 2rem;
+$margin-bottom: 5rem;
+$margin-right: 5rem;
+$margin-left: 5.5rem;
 $color: #00CD46;
 
 .wrapper {
@@ -87,7 +87,7 @@ $color: #00CD46;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: left;
     margin-top: 2.7rem;
 }
 
@@ -95,6 +95,7 @@ $color: #00CD46;
     cursor: pointer;
     height: 2.6rem;
     font-size: 1.3rem;
+    margin-right: 3rem;
     font-weight: 400;
     color: #CFCFCF;
 }
@@ -108,31 +109,20 @@ $color: #00CD46;
     color: black;
 }
 
-@media only screen and (max-width: 515px) {
+@media only screen and (max-width: 660px) {
     .button {
-        font-size: 1.1rem;
+        margin-right: 2rem;
     }
 }
 
-@media only screen and (max-width: 460px) {
+@media only screen and (max-width: 592px) {
     .button {
-        font-size: .9rem;
+        margin-right: 1rem;
     }
 }
 
-@media only screen and (max-width: 395px) {
-    .title {
-        font-size: 1.5rem;
-    }
+@media only screen and (max-width: 525px) {
     .button {
-        font-size: .8rem;
-    }
-
-    .x-axis {
-        font-size: .8rem;
-    }
-
-    .y-axis {
-        font-size: .8rem;
+        margin-right: .5rem;
     }
 }

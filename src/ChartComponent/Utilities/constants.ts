@@ -3,7 +3,7 @@ export const body = {
     height: 400,
     margin: {
         top: 20,
-        right: 70,
+        right: 75,
         bottom: 50,
         left: 50 
     }

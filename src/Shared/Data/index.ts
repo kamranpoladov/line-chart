@@ -10,7 +10,7 @@ const secondDate = new Date(
 
 while( firstDate < secondDate ) {
     firstDate.setDate(firstDate.getDate() + 1);
-    data.push({ date: new Date(firstDate as unknown as VarDate), value: Math.floor(Math.random() * 30000) });
+    data.push({ date: new Date(firstDate as unknown as VarDate), value: Math.floor(Math.random() * 300000) });
 };
  
 
