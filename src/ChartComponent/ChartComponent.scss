@@ -4,125 +4,125 @@ $margin-top: 2rem;
 $margin-bottom: 5rem;
 $margin-right: 5rem;
 $margin-left: 5.5rem;
-$color: #00CD46;
+$color: #00cd46;
 
 .wrapper {
-    border: 1px solid #E2E2E2;
-    border-radius: .8rem;
-    padding: 2.3rem 1.5rem 0 1.5rem;
-    min-width: 50%;
-    max-height: 400px;
-    margin: 0 2rem 2rem 0;
+  border: 1px solid #e2e2e2;
+  border-radius: 0.8rem;
+  padding: 2.3rem 1.5rem 0 1.5rem;
+  min-width: 50%;
+  max-height: 400px;
+  margin: 0 2rem 2rem 0;
 }
 
 .title {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 400;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 400;
 }
 
 .container {
-    width: 100%;
-    min-height: $height - $margin-top - $margin-bottom;
+  width: 100%;
+  min-height: $height - $margin-top - $margin-bottom;
 }
 
 .chart-body {
-    transform: translate($margin-left, $margin-top);
+  transform: translate($margin-left, $margin-top);
 }
 
 .x-axis {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .y-axis {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .line-path {
-    stroke: $color;
-    stroke-width: 2px;
-    fill: none;
+  stroke: $color;
+  stroke-width: 2px;
+  fill: none;
 }
 
 .gradient-start {
-    stop-color: rgba(66, 205, 0, 0.1);
-    stop-opacity: 1;
+  stop-color: rgba(66, 205, 0, 0.1);
+  stop-opacity: 1;
 }
 
 .gradient-stop {
-    stop-color: rgba(66, 205, 0, 0);
-    stop-opacity: 0;
+  stop-color: rgba(66, 205, 0, 0);
+  stop-opacity: 0;
 }
 
 .area-path {
-    fill: url(#areaGradient);
+  fill: url(#areaGradient);
 }
 
 .focus-line {
-    stroke-dasharray: 1, 5;
-    stroke: black;
+  stroke-dasharray: 1, 5;
+  stroke: black;
 }
 
 .focus-circle {
-    fill: $color;
-    opacity: 0;
-    r: 3.5px;
+  fill: $color;
+  opacity: 0;
+  r: 3.5px;
 }
 
 .focus-text {
-    font-size: 1.2rem;
-    text-anchor: middle;
-    font-weight: 500;
-    opacity: 0;
+  font-size: 1.2rem;
+  text-anchor: middle;
+  font-weight: 500;
+  opacity: 0;
 }
 
 .pointer-space {
-    fill: none;
-    pointer-events: all;
-    x: -$margin-left;
-    y: -$margin-top;
+  fill: none;
+  pointer-events: all;
+  x: -$margin-left;
+  y: -$margin-top;
 }
 
 .buttons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-    margin-top: 2.7rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  margin-top: 2.7rem;
 }
 
 .button {
-    cursor: pointer;
-    height: 2.6rem;
-    font-size: 1.3rem;
-    margin-right: 3rem;
-    font-weight: 400;
-    color: #CFCFCF;
+  cursor: pointer;
+  height: 2.6rem;
+  font-size: 1.3rem;
+  margin-right: 3rem;
+  font-weight: 400;
+  color: #cfcfcf;
 }
 
 .active {
-    color: black;
-    border-bottom: black 2px solid;
+  color: black;
+  border-bottom: black 2px solid;
 }
 
 .button:hover {
-    color: black;
+  color: black;
 }
 
 @media only screen and (max-width: 660px) {
-    .button {
-        margin-right: 2rem;
-    }
+  .button {
+    margin-right: 2rem;
+  }
 }
 
 @media only screen and (max-width: 592px) {
-    .button {
-        margin-right: 1rem;
-    }
+  .button {
+    margin-right: 1rem;
+  }
 }
 
 @media only screen and (max-width: 525px) {
-    .button {
-        margin-right: .5rem;
-    }
+  .button {
+    margin-right: 0.5rem;
+  }
 }
