@@ -2,9 +2,9 @@ export const body = {
   width: 800,
   height: 400,
   margin: {
-    top: 20,
-    right: 75,
-    bottom: 50,
+    top: 10,
+    right: 85,
+    bottom: 60,
     left: 50
   }
 };

@@ -5,7 +5,7 @@ import { render } from "react-dom";
 
 import { register } from "./serviceWorker";
 import ChartComponent from "./ChartComponent";
-import mockData from "./Shared/Data";
+import mockData from "./ChartComponent/Data";
 
 // here we disable console and performance for better production experience
 // console.log(process.env.NODE_ENV);
@@ -29,22 +29,14 @@ const App = () => {
   leftRangeInit.setDate(leftRangeInit.getDate() - 6);
   return (
     <div>
-      <section styleName="up">
-        <div styleName="component upper" />
-        <div styleName="component upper" />
-        <div styleName="component upper" />
-        <div styleName="component upper" />
-      </section>
       <section styleName="down">
         <ChartComponent
-          defaultRange={{
+          range={{
             rangeLeft: leftRangeInit,
             rangeRight: rightRangeInit,
           }}
           data={mockData}
         />
-        <div styleName="component bottom" />
-        <div styleName="component bottom" />
       </section>
     </div>
   );

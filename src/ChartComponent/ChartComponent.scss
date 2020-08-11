@@ -1,18 +1,14 @@
 $width: 80rem;
-$height: 40rem;
+$height: 100%;
 $margin-top: 2rem;
-$margin-bottom: 5rem;
-$margin-right: 5rem;
-$margin-left: 5.5rem;
+$margin-bottom: 6rem;
+$margin-right: 8.5rem;
+$margin-left: 5rem;
 $color: #00cd46;
 
 .wrapper {
-  border: 1px solid #e2e2e2;
-  border-radius: 0.8rem;
-  padding: 2.3rem 1.5rem 0 1.5rem;
   min-width: 50%;
-  max-height: 400px;
-  margin: 0 2rem 2rem 0;
+  max-height: $height;
 }
 
 .title {
@@ -23,11 +19,7 @@ $color: #00cd46;
 
 .container {
   width: 100%;
-  min-height: $height - $margin-top - $margin-bottom;
-}
-
-.chart-body {
-  transform: translate($margin-left, $margin-top);
+  margin-bottom: -$margin-bottom;
 }
 
 .x-axis {
@@ -58,6 +50,17 @@ $color: #00cd46;
   fill: url(#areaGradient);
 }
 
+.focus-box {
+  position: relative;
+  display: inline;
+  padding: 3px 5px;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .focus-line {
   stroke-dasharray: 1, 5;
   stroke: black;
@@ -69,11 +72,20 @@ $color: #00cd46;
   r: 3.5px;
 }
 
-.focus-text {
-  font-size: 1.2rem;
+.focus-text-value {
+  font-size: 0.9rem;
   text-anchor: middle;
-  font-weight: 500;
-  opacity: 0;
+  line-height: 1.1rem;
+  font-weight: normal;
+  opacity: 1;
+}
+
+.focus-text-date {
+  font-size: 0.9rem;
+  fill: #7b7b7b;
+  text-anchor: middle;
+  font-weight: 300;
+  opacity: 1;
 }
 
 .pointer-space {
@@ -86,18 +98,22 @@ $color: #00cd46;
 .buttons {
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: left;
-  margin-top: 2.7rem;
 }
 
 .button {
+  display: inline-block;
+  white-space: nowrap;
   cursor: pointer;
-  height: 2.6rem;
   font-size: 1.3rem;
   margin-right: 3rem;
   font-weight: 400;
   color: #cfcfcf;
+  border-bottom: transparent 2px solid;
+
+  &:hover {
+    color: black;
+  }
 }
 
 .active {
@@ -105,8 +121,9 @@ $color: #00cd46;
   border-bottom: black 2px solid;
 }
 
-.button:hover {
-  color: black;
+.no-data-found {
+  font-size: 3rem;
+  text-align: center;
 }
 
 @media only screen and (max-width: 660px) {
